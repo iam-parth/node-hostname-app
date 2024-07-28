@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: node-app
+  name: node-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - DOMAIN_NAME
+    secretName: abc-cert-secret
+  ingressClassName: nginx
+  rules:
+  - host: DOMAIN_NAME
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: node-hostname-service
+            port:
+              name: http
